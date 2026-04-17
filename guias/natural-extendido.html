@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Natural Extendido · Fractal Brewing Guide</title>
+
+<link rel="stylesheet" href="https://ikalinowski.github.io/fractal-brewing-kit/css/fractal-brand.css">
+
+<style>
+  :root {
+    --cafe-acento-1:  #162c13;
+    --cafe-acento-2:  #77d203;
+    --cafe-acento-bg: rgba(119,210,3,0.09);
+  }
+
+  /* ── Hero rediseñado — Opción B ── */
+  .hero {
+    background: linear-gradient(160deg, #162c13 0%, #1e3d18 60%, #243f1a 100%);
+    padding: 44px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(119,210,3,0.09) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  /* Logo grande dentro del hero */
+  .hero-brand {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .hero-brand img {
+    height: 44px;
+    width: auto;
+  }
+  .hero-brand-text {
+    font-size: 36px;
+    font-weight: 300;
+    color: #F0EEE9;
+    letter-spacing: 0.08em;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* Línea separadora entre logo y datos del café */
+  .hero-separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(167,236,129,0.18);
+    margin: 0 0 22px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-origin {
+    position: relative;
+    z-index: 1;
+    color: #77d203;
+    background: rgba(119,210,3,0.12);
+    border: 1px solid rgba(119,210,3,0.30);
+    opacity: 1;
+  }
+  .hero-name {
+    position: relative;
+    z-index: 1;
+    color: #F0EEE9;
+    font-size: 44px;
+    line-height: 1.05;
+  }
+  .hero-meta {
+    position: relative;
+    z-index: 1;
+    color: rgba(240,238,233,0.60);
+  }
+  .hero-divider {
+    position: relative;
+    z-index: 1;
+    background: #77d203;
+    opacity: 0.55;
+  }
+
+  /* Sin barra de header — el hero lo reemplaza */
+  .brand-band { display: none; }
+
+  .tab.active { background: #162c13; border-color: #162c13; }
+  .snum { background: #162c13; color: #77d203; }
+  .tip::before { background: #77d203; }
+  .pill, .gbadge {
+    color: #162c13;
+    background: rgba(119,210,3,0.10);
+    border-color: rgba(119,210,3,0.35);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- brand-band oculto — el logo está en el hero -->
+<div class="brand-band"></div>
+
+<!-- ── HERO con logo grande ── -->
+<div class="hero">
+
+  <!-- Logo Fractal grande -->
+  <div class="hero-brand">
+    <img src="https://ikalinowski.github.io/fractal-brewing-kit/assets/logo/fractal-logo-blanco.svg"
+         alt="Fractal"
+         onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex'">
+    <span id="logo-fb" style="display:none;align-items:center;gap:10px">
+      <span class="hero-brand-text">fractal</span>
+    </span>
+  </div>
+
+  <div class="hero-separator"></div>
+
+  <p class="hero-origin">Yanatile · Calca · Cusco · 1850 msnm</p>
+  <h1 class="hero-name">Natural<br>Extendido</h1>
+  <p class="hero-meta">Geisha Rojo · Natural Anaeróbico Ext.<br>Juan José Huilca Singuña · Tueste Medio</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="wrap">
+  <div class="block">
+    <p class="lbl">Notas de cata</p>
+    <div class="pills" id="pills"></div>
+  </div>
+  <div class="block">
+    <p class="lbl">Método</p>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div class="card" id="card">
+    <div class="srow" id="t1"></div>
+    <div class="srow" id="t2"></div>
+    <div class="grow" id="gr"></div>
+    <p class="sh">Protocolo de extracción</p>
+    <div class="steps" id="st"></div>
+    <div class="tip" id="tp"></div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <img src="https://ikalinowski.github.io/fractal-brewing-kit/assets/logo/fractal-logo-blanco.svg"
+       alt="Fractal" onerror="this.style.display='none'">
+  <span class="footer-tagline">Siente lo auténtico · Celebra la variedad</span>
+  <span class="footer-sub">fractal · guía de brewing</span>
+</div>
+
+<script>
+var NOTAS = ['Chocolate Bitter', 'Algarrobina', 'Arándanos'];
+
+var METODOS = {
+
+  'V60': {
+    t1: [['1 : 15','Ratio'],['15 g','Café'],['225 ml','Agua']],
+    t2: [['89 °C','Temp.'],['2:30 min','Tiempo'],['~1.35%','TDS est.']],
+    g: 'Media', m: '~650–700 µm',
+    s: [
+      ['Bloom — 45 ml · 45 seg',
+       'Saturar lentamente en espiral. El anaeróbico extendido libera mucho CO₂ — esperar los 45 seg completos hasta que el burbujeo se calme.'],
+      ['90 ml · 20 seg',
+       'Primer vertido circular desde el centro hacia afuera sin tocar el borde. El arándano aparece limpio en esta fase.'],
+      ['90 ml · 20 seg',
+       'Mismo patrón. Mantener el nivel sin dejar bajar completamente. La algarrobina y el chocolate se integran aquí.'],
+      ['Drenaje · Esperado: 2:20–2:40 min',
+       'Dejar drenar sin tocar. Si cierra antes de 2:10 min, afinar molienda. Si supera 2:50 min, grueso un step.']
+    ],
+    tip: 'Si aparece amargor seco, baja a 88 °C y muele un poco más grueso. El chocolate bitter de este café debe ser redondo, nunca astringente.'
+  },
+
+  'Origami': {
+    t1: [['1 : 15','Ratio'],['15 g','Café'],['225 ml','Agua']],
+    t2: [['89 °C','Temp.'],['2:20 min','Tiempo'],['~1.35%','TDS est.']],
+    g: 'Media', m: '~670–720 µm',
+    s: [
+      ['Bloom — 45 ml · 40 seg',
+       'El filtro plisado retiene más el bloom. Saturar bien desde el centro y esperar a que el burbujeo baje.'],
+      ['90 ml · 18 seg',
+       'Vertido circular controlado. El Origami drena parejo — mantener ritmo sin acelerar. El arándano emerge limpio.'],
+      ['90 ml · 18 seg',
+       'Segundo pulso al mismo ritmo. La forma cónica favorece la claridad del chocolate sin sacrificar cuerpo.'],
+      ['Drenaje · Esperado: 2:10–2:30 min',
+       'Si drena antes de 2:00 min, afinar molienda. El Origami drena más rápido que el V60 con el mismo grind.']
+    ],
+    tip: 'El Origami amplifica el arándano. Si la algarrobina desaparece, prueba 90 °C y baja el grind medio step.'
+  },
+
+  'Aeropress': {
+    t1: [['1 : 11','Ratio'],['18 g','Café'],['198 ml','Agua']],
+    t2: [['87 °C','Temp.'],['2:00 min','Tiempo'],['~1.55%','TDS est.']],
+    g: 'Media-fina', m: '~490–540 µm',
+    s: [
+      ['Posición normal — 45 ml · 20 seg',
+       'Verter los 45 ml y remover 3 veces con paleta plana. Con 18 g el lecho es más denso — el desgasificado inicial es clave para una extracción pareja.'],
+      ['153 ml · 20 seg',
+       'Completar el agua en espiral lenta sin agitar. Colocar el émbolo sobre la cámara sin presionar para sellar.'],
+      ['Infusión — 45 seg',
+       'Reposar sin tocar. La mayor dosis intensifica el chocolate y la algarrobina — este tiempo permite que se integren sin sobreextraer.'],
+      ['Presionar — 25 seg',
+       'Presionar muy lento y parejo. Parar al primer silbido de aire. Con 18 g la resistencia es mayor — no forzar. Total: ~1:50–2:05 min.']
+    ],
+    tip: '18 g en Aeropress entrega el perfil más concentrado y achocolatado del lote. Si aparece astringencia, sube la molienda a 560 µm.'
+  },
+
+  'Chemex': {
+    t1: [['1 : 16','Ratio'],['20 g','Café'],['320 ml','Agua']],
+    t2: [['90 °C','Temp.'],['3:10 min','Tiempo'],['~1.28%','TDS est.']],
+    g: 'Media-gruesa', m: '~800–850 µm',
+    s: [
+      ['Bloom — 55 ml · 50 seg',
+       'El filtro cuádruple necesita saturación completa. Espiral amplia asegurando que todo el papel esté húmedo. Esperar hasta que el burbujeo cese totalmente.'],
+      ['90 ml · 22 seg',
+       'Primer pulso circular desde el centro. Con 20 g la cama es más profunda — la molienda gruesa compensa el filtro denso. El arándano aparece brillante.'],
+      ['90 ml · 22 seg',
+       'Segundo pulso al mismo ritmo. No dejar que el nivel baje completamente. El chocolate bitter gana profundidad.'],
+      ['85 ml · 20 seg',
+       'Cierre lento al centro. Con 20 g el Chemex entrega más cuerpo sin perder claridad. Total: 3:00–3:20 min.']
+    ],
+    tip: 'Con 20 g el Chemex revela toda la complejidad de este café. Si el chocolate domina, sube el ratio a 1:17. Si hay astringencia, muele más grueso.'
+  },
+
+  'Deep 27': {
+    t1: [['1 : 15','Ratio'],['8 g','Café'],['120 ml','Agua']],
+    t2: [['89 °C','Temp.'],['1:50 min','Tiempo'],['~1.38%','TDS est.']],
+    g: 'Media', m: '~650–690 µm',
+    s: [
+      ['Bloom — 20 ml · 30 seg',
+       'Verter los 20 ml al centro del lecho. El ángulo de 27° forma una capa de filtración profunda incluso con 8 g — dejar que el CO₂ se libere completamente.'],
+      ['Flujo osmótico — 50 ml al centro',
+       'Verter lento y constante apuntando siempre al centro, nunca en espiral. Este es el método osmótico de CAFEC: el agua entra y sale al mismo ritmo, manteniendo presión pareja en toda la cama.'],
+      ['50 ml finales · al centro',
+       'Continuar al centro con el mismo ritmo calmo. Con 8 g el Deep 27 entrega una taza pequeña, intensa y limpia. El chocolate y la algarrobina aparecen concentrados.'],
+      ['Drenaje · Esperado: 1:40–2:00 min',
+       'Dejar drenar sin tocar. Si supera 2:10 min, muele levemente más grueso.']
+    ],
+    tip: 'Verter siempre al centro, nunca en espiral. Con 8 g es ideal para degustar este café en formato single cup concentrado. Si aparece amargor, sube a 90 °C y afina la molienda ligeramente.'
+  },
+
+  'B75': {
+    t1: [['1 : 15','Ratio'],['16 g','Café'],['240 ml','Agua']],
+    t2: [['90 °C','Temp.'],['2:40 min','Tiempo'],['~1.35%','TDS est.']],
+    g: 'Media', m: '~630–670 µm',
+    s: [
+      ['Bloom — 45 ml · 45 seg',
+       'Verter lentamente en espiral desde el centro. La cama plana del B75 distribuye el agua uniformemente — con 16 g la saturación es fácil y pareja.'],
+      ['65 ml · 18 seg',
+       'Primer pulso circular sin llegar al borde del papel. La cama plana extrae el chocolate y el arándano simultáneamente.'],
+      ['65 ml · 18 seg',
+       'Segundo pulso al mismo ritmo. La algarrobina aparece con dulzura limpia — el momento más representativo de este café en cama plana.'],
+      ['65 ml · 15 seg',
+       'Cierre suave al centro. No revolver el lecho. Con 16 g el B75 entrega más cuerpo. Total: 2:30–2:50 min.']
+    ],
+    tip: 'El B75 con 16 g es el método más equilibrado — chocolate, algarrobina y arándanos en perfecta proporción. Si el drenaje es muy lento, muele un step más grueso.'
+  }
+
+};
+
+var metodoKeys = Object.keys(METODOS);
+var cur = metodoKeys[0];
+
+document.getElementById('pills').innerHTML = NOTAS
+  .map(function(n){ return '<span class="pill">'+n+'</span>'; }).join('');
+
+document.getElementById('tabs').innerHTML = metodoKeys
+  .map(function(k,i){
+    return '<button class="tab'+(i===0?' active':'')+'" onclick="go(\''+k+'\',this)"><span class="tab-name">'+k+'</span></button>';
+  }).join('');
+
+function go(k,b){
+  if(k===cur) return;
+  cur=k;
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+  b.classList.add('active');
+  var c=document.getElementById('card');
+  c.classList.add('fade');
+  setTimeout(function(){draw(k);c.classList.remove('fade');},160);
+}
+function s(v,l){return '<div class="stat"><span class="sv">'+v+'</span><span class="sl">'+l+'</span></div>';}
+function draw(k){
+  var r=METODOS[k];
+  document.getElementById('t1').innerHTML=r.t1.map(function(x){return s(x[0],x[1]);}).join('');
+  document.getElementById('t2').innerHTML=r.t2.map(function(x){return s(x[0],x[1]);}).join('');
+  document.getElementById('gr').innerHTML='<div><div class="glbl">Molienda</div><div class="gval">'+r.g+'</div></div><span class="gbadge">'+r.m+'</span>';
+  document.getElementById('st').innerHTML=r.s.map(function(x,i){
+    return '<div class="step"><div class="snum">'+(i+1)+'</div><div><div class="stitle">'+x[0]+'</div><div class="sdesc">'+x[1]+'</div></div></div>';
+  }).join('');
+  document.getElementById('tp').innerHTML='<p>'+r.tip+'</p>';
+}
+draw(cur);
+</script>
+</body>
+</html>
