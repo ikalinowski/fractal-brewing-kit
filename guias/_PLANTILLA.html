@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>NOMBRE DEL CAFÉ · Fractal Brewing Guide</title>
+
+<!-- ── 1. CSS de marca Fractal (siempre igual) ── -->
+<link rel="stylesheet" href="../css/fractal-brand.css">
+
+<!-- ── 2. Acento del café (cambia en cada guía) ── -->
+<style>
+  :root {
+    --cafe-acento-1:  #005347;        /* color principal del café */
+    --cafe-acento-2:  #A7EC81;        /* color secundario */
+    --cafe-acento-bg: rgba(0,83,71,0.06); /* fondo suave */
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="brand-band">
+  <div class="brand-logo">
+    <img src="../assets/logo/fractal-isotipo.svg" alt="Fractal" height="28">
+    <span class="brand-logo-text">fractal</span>
+  </div>
+  <span class="brand-badge">Brewing Guide</span>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <p class="hero-origin">ORIGEN · REGIÓN · ALTITUD msnm</p>
+  <h1 class="hero-name">Nombre del Café</h1>
+  <p class="hero-meta">Varietal · Proceso<br>Productor · Tueste</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="wrap">
+
+  <!-- Notas de cata -->
+  <div class="block">
+    <p class="lbl">Notas de cata</p>
+    <div class="pills" id="pills"></div>
+  </div>
+
+  <!-- Tabs de métodos (generados por JS) -->
+  <div class="block">
+    <p class="lbl">Método</p>
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <!-- Card de receta -->
+  <div class="card" id="card">
+    <div class="srow" id="t1"></div>
+    <div class="srow" id="t2"></div>
+    <div class="grow" id="gr"></div>
+    <p class="sh">Protocolo de extracción</p>
+    <div class="steps" id="st"></div>
+    <div class="tip" id="tp"></div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <img src="../assets/logo/fractal-isotipo.svg" alt="Fractal">
+  <span class="footer-tagline">Siente lo auténtico · Celebra la variedad</span>
+  <span class="footer-sub">fractal · guía de brewing</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     DATOS DEL CAFÉ
+     ════════════════════════════════════════════════════════════
+     Este es el único bloque que cambia entre guías.
+     
+     NOTAS: array de strings con las notas de cata.
+     
+     MÉTODOS: objeto donde cada key es un método.
+     Puedes poner los que quieras — V60, Origami,
+     Aeropress, Chemex, Prensa, Orea, Kalita, etc.
+     El sistema genera los tabs automáticamente.
+     
+     Cada método tiene:
+       t1: [[valor, label], ...]  — fila 1 stats (ratio, café, agua)
+       t2: [[valor, label], ...]  — fila 2 stats (temp, tiempo, TDS)
+       g:  string                 — tipo de molienda
+       m:  string                 — rango en micras
+       s:  [[titulo, descripcion], ...]  — pasos
+       tip: string                — consejo final
+     ════════════════════════════════════════════════════════════ -->
+<script>
+
+/* ── Notas de cata ── */
+var NOTAS = [
+  'Nota 1',
+  'Nota 2',
+  'Nota 3',
+  'Nota 4'
+];
+
+/* ── Métodos ── */
+var METODOS = {
+  'V60': {
+    t1: [['1 : 16','Ratio'], ['15 g','Café'], ['240 ml','Agua']],
+    t2: [['90 °C','Temp.'], ['2:20 min','Tiempo'], ['~1.30%','TDS est.']],
+    g: 'Media', m: '~680–720 µm',
+    s: [
+      ['Bloom — 30 ml · 40 seg', 'Descripción del paso.'],
+      ['70 ml · 18 seg',          'Descripción del paso.'],
+      ['70 ml · 18 seg',          'Descripción del paso.'],
+      ['70 ml · 15 seg',          'Descripción del paso.']
+    ],
+    tip: 'Consejo final para este método.'
+  },
+  'Aeropress': {
+    t1: [['1 : 12','Ratio'], ['15 g','Café'], ['180 ml','Agua']],
+    t2: [['88 °C','Temp.'], ['1:40 min','Tiempo'], ['~1.50%','TDS est.']],
+    g: 'Media-fina', m: '~520–570 µm',
+    s: [
+      ['Invertida — Bloom 30 ml · 20 seg', 'Descripción del paso.'],
+      ['150 ml · 25 seg',                   'Descripción del paso.'],
+      ['Infusión — 30 seg',                 'Descripción del paso.'],
+      ['Presionar — 20 seg',                'Descripción del paso.']
+    ],
+    tip: 'Consejo final para este método.'
+  }
+  /* Agrega o elimina métodos según el café */
+};
+
+/* ════════════════════════════════════════════════
+   MOTOR — no modificar
+   ════════════════════════════════════════════════ */
+var metodoKeys = Object.keys(METODOS);
+var cur = metodoKeys[0];
+
+/* Renderizar pills */
+document.getElementById('pills').innerHTML = NOTAS
+  .map(function(n){ return '<span class="pill">'+n+'</span>'; })
+  .join('');
+
+/* Renderizar tabs dinámicamente */
+document.getElementById('tabs').innerHTML = metodoKeys
+  .map(function(k, i){
+    var active = i === 0 ? ' active' : '';
+    return '<button class="tab'+active+'" onclick="go(\''+k+'\',this)"><span class="tab-name">'+k+'</span></button>';
+  })
+  .join('');
+
+function go(k, b){
+  if(k === cur) return;
+  cur = k;
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+  b.classList.add('active');
+  var c = document.getElementById('card');
+  c.classList.add('fade');
+  setTimeout(function(){ draw(k); c.classList.remove('fade'); }, 160);
+}
+
+function s(v,l){ return '<div class="stat"><span class="sv">'+v+'</span><span class="sl">'+l+'</span></div>'; }
+
+function draw(k){
+  var r = METODOS[k];
+  document.getElementById('t1').innerHTML = r.t1.map(function(x){ return s(x[0],x[1]); }).join('');
+  document.getElementById('t2').innerHTML = r.t2.map(function(x){ return s(x[0],x[1]); }).join('');
+  document.getElementById('gr').innerHTML = '<div><div class="glbl">Molienda</div><div class="gval">'+r.g+'</div></div><span class="gbadge">'+r.m+'</span>';
+  document.getElementById('st').innerHTML = r.s.map(function(x,i){
+    return '<div class="step"><div class="snum">'+(i+1)+'</div><div><div class="stitle">'+x[0]+'</div><div class="sdesc">'+x[1]+'</div></div></div>';
+  }).join('');
+  document.getElementById('tp').innerHTML = '<p>'+r.tip+'</p>';
+}
+
+draw(cur);
+</script>
+</body>
+</html>

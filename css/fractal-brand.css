@@ -1,0 +1,342 @@
+/* ═══════════════════════════════════════════════════════════════
+   FRACTAL · Sistema de Diseño — Brewing Guides
+   ═══════════════════════════════════════════════════════════════
+   
+   Importar en cada guía con:
+   <link rel="stylesheet" href="../css/fractal-brand.css">
+   
+   Los colores de acento del café se definen en cada HTML así:
+   <style>
+     :root {
+       --cafe-acento-1:  #TU_COLOR;
+       --cafe-acento-2:  #TU_COLOR_SECUNDARIO;
+       --cafe-acento-bg: rgba(R,G,B,0.08);
+     }
+   </style>
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════
+   VARIABLES FRACTAL — nunca cambian entre guías
+   ═══════════════════════════════════════════════ */
+:root {
+  /* Colores de marca */
+  --f-verde:       #005347;
+  --f-verde-dark:  #003D33;
+  --f-verde-light: #A7EC81;
+  --f-crema:       #F0EEE9;
+  --f-rosa:        #F37FE1;
+  --f-azul:        #2A7DE1;
+  --f-negro:       #000000;
+  --f-blanco:      #FFFFFF;
+
+  --f-verde-06:  rgba(0,83,71,0.06);
+  --f-verde-10:  rgba(0,83,71,0.10);
+  --f-verde-30:  rgba(0,83,71,0.30);
+  --f-verde-50:  rgba(0,83,71,0.50);
+  --f-light-15:  rgba(167,236,129,0.15);
+  --f-light-30:  rgba(167,236,129,0.30);
+
+  /* Tipografía */
+  --font-body: 'Outfit', -apple-system, 'Helvetica Neue', sans-serif;
+
+  /* Radios */
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-pill: 99px;
+
+  /* ═══════════════════════════════════════════
+     ACENTO DEL CAFÉ
+     Se sobreescriben en cada guía HTML.
+     Defaults = colores Fractal para que el
+     sistema funcione si no se definen acentos.
+     ═══════════════════════════════════════════ */
+  --cafe-acento-1:  #005347;
+  --cafe-acento-2:  #A7EC81;
+  --cafe-acento-bg: rgba(0,83,71,0.06);
+}
+
+/* ═══════════════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════════════ */
+*,*::before,*::after {
+  box-sizing:border-box; margin:0; padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+html { font-size:16px; scroll-behavior:smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--f-crema);
+  color: var(--f-verde);
+  min-height: 100vh;
+  padding-bottom: calc(env(safe-area-inset-bottom,0px) + 48px);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════
+   HEADER DE MARCA
+   ═══════════════════════════════════════════════ */
+.brand-band {
+  background: var(--f-verde);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand-logo { display:flex; align-items:center; gap:10px; }
+.brand-logo img { height:28px; width:auto; }
+.brand-logo-text {
+  font-size:20px; font-weight:300;
+  color:var(--f-crema); letter-spacing:0.08em;
+}
+.brand-badge {
+  font-size:9px; font-weight:600;
+  letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--f-verde-light);
+  padding:4px 12px;
+  border:1px solid rgba(167,236,129,0.25);
+  border-radius:var(--r-pill);
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════ */
+.hero {
+  padding:36px 24px 28px;
+  text-align:center;
+  animation:fadeUp 0.5s ease both;
+}
+.hero-origin {
+  font-size:10px; font-weight:600;
+  letter-spacing:0.22em; text-transform:uppercase;
+  /* acento del café */
+  color: var(--cafe-acento-1);
+  background: var(--cafe-acento-bg);
+  border: 1px solid var(--cafe-acento-1);
+  opacity: 0.85;
+  display:inline-block;
+  padding:5px 14px;
+  border-radius:var(--r-pill);
+  margin-bottom:18px;
+}
+.hero-name {
+  font-weight:300; font-size:52px; line-height:1.0;
+  color:var(--f-verde); margin-bottom:14px; letter-spacing:0.01em;
+}
+.hero-meta {
+  font-size:13px; font-weight:300;
+  color:var(--f-verde-50); line-height:1.8;
+}
+.hero-divider {
+  width:40px; height:2px;
+  /* acento del café */
+  background:var(--cafe-acento-1);
+  opacity:0.4;
+  margin:20px auto 0; border-radius:1px;
+}
+
+/* ═══════════════════════════════════════════════
+   WRAP / BLOQUES / LABELS
+   ═══════════════════════════════════════════════ */
+.wrap { max-width:440px; margin:0 auto; padding:0 20px; }
+.block { margin-bottom:24px; }
+.lbl {
+  font-size:9px; font-weight:600;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--f-verde-50); margin-bottom:10px;
+}
+
+/* ═══════════════════════════════════════════════
+   NOTAS DE CATA
+   Pills con acento del café
+   ═══════════════════════════════════════════════ */
+.pills { display:flex; flex-wrap:wrap; gap:6px; }
+.pill {
+  font-size:11px; font-weight:500;
+  padding:6px 14px;
+  border-radius:var(--r-pill);
+  letter-spacing:0.01em;
+  /* acento del café */
+  background: var(--cafe-acento-bg);
+  color: var(--cafe-acento-1);
+  border: 1px solid var(--cafe-acento-1);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════
+   TABS DE MÉTODO
+   Completamente flexibles — el JS los genera
+   según cuántos métodos tenga ese café.
+   1 café puede tener 2 métodos, otro puede tener 6.
+   ═══════════════════════════════════════════════ */
+.tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:20px;
+}
+.tab {
+  flex:1 1 auto;
+  min-width:58px;
+  background:var(--f-blanco);
+  border:1.5px solid var(--f-verde-10);
+  border-radius:var(--r-md);
+  padding:11px 6px;
+  cursor:pointer;
+  transition:all 0.18s ease;
+  -webkit-appearance:none;
+  outline:none;
+  font-family:var(--font-body);
+  text-align:center;
+}
+.tab:active { transform:scale(0.96); }
+.tab.active {
+  background:var(--f-verde);
+  border-color:var(--f-verde);
+}
+.tab-name {
+  font-size:11px; font-weight:500;
+  color:var(--f-verde-50);
+  letter-spacing:0.02em;
+  transition:color 0.18s;
+  white-space:nowrap;
+  display:block;
+}
+.tab.active .tab-name { color:var(--f-crema); }
+
+/* ═══════════════════════════════════════════════
+   CARD DE RECETA
+   ═══════════════════════════════════════════════ */
+.card {
+  background:var(--f-blanco);
+  border:1px solid var(--f-verde-06);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  transition:opacity 0.16s ease, transform 0.16s ease;
+  box-shadow:0 2px 20px rgba(0,83,71,0.05);
+  animation:fadeUp 0.5s ease 0.2s both;
+}
+.card.fade { opacity:0; transform:translateY(5px); }
+
+.srow {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--f-verde-06);
+}
+.stat { padding:16px 6px; text-align:center; position:relative; }
+.stat:not(:last-child)::after {
+  content:''; position:absolute;
+  right:0; top:20%; height:60%; width:1px;
+  background:var(--f-verde-06);
+}
+.sv {
+  display:block; font-size:15px; font-weight:600;
+  color:var(--f-verde); margin-bottom:3px; line-height:1.2;
+}
+.sl {
+  display:block; font-size:9px; font-weight:500;
+  color:var(--f-verde-50);
+  text-transform:uppercase; letter-spacing:0.12em;
+}
+
+.grow {
+  display:flex; align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--f-verde-06);
+  gap:10px;
+}
+.glbl {
+  font-size:9px; font-weight:500;
+  color:var(--f-verde-50);
+  text-transform:uppercase; letter-spacing:0.12em;
+  margin-bottom:3px;
+}
+.gval { font-size:15px; font-weight:600; color:var(--f-verde); }
+.gbadge {
+  font-size:11px; font-weight:500;
+  padding:5px 13px;
+  border-radius:var(--r-pill);
+  white-space:nowrap; flex-shrink:0;
+  /* acento del café */
+  color: var(--cafe-acento-1);
+  background: var(--cafe-acento-bg);
+  border: 1px solid var(--cafe-acento-1);
+  opacity:0.85;
+}
+
+.sh {
+  font-size:9px; font-weight:600;
+  color:var(--f-verde-50);
+  text-transform:uppercase; letter-spacing:0.16em;
+  padding:16px 18px 10px;
+}
+
+.steps { padding:0 18px 4px; display:flex; flex-direction:column; gap:14px; }
+.step { display:flex; gap:12px; align-items:flex-start; }
+.snum {
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700;
+  flex-shrink:0; margin-top:1px;
+  /* acento del café */
+  background: var(--cafe-acento-1);
+  color: var(--f-crema);
+}
+.stitle {
+  font-size:13px; font-weight:600;
+  color:var(--f-verde); margin-bottom:3px; line-height:1.35;
+}
+.sdesc {
+  font-size:12px; font-weight:300;
+  color:var(--f-verde-50); line-height:1.7;
+}
+
+.tip {
+  margin:16px 18px 20px;
+  padding:14px 16px;
+  border-radius:var(--r-sm);
+  background:var(--f-verde);
+  position:relative; overflow:hidden;
+}
+.tip::before {
+  content:''; position:absolute;
+  left:0; top:0; bottom:0; width:3px;
+  /* acento secundario del café */
+  background: var(--cafe-acento-2);
+}
+.tip p {
+  font-size:12px; font-weight:300;
+  color:rgba(240,238,233,0.85); line-height:1.75;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════ */
+.footer {
+  text-align:center; padding:32px 24px 12px;
+  display:flex; flex-direction:column;
+  align-items:center; gap:8px;
+}
+.footer img { height:22px; width:auto; opacity:0.3; }
+.footer-tagline {
+  font-size:10px; font-weight:500;
+  letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--f-verde-50);
+}
+.footer-sub {
+  font-size:11px; font-weight:300;
+  color:var(--f-verde-30); letter-spacing:0.04em;
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMACIONES
+   ═══════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.block:nth-child(1) { animation:fadeUp 0.5s ease 0.1s both; }
+.block:nth-child(2) { animation:fadeUp 0.5s ease 0.15s both; }
