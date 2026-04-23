@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Exotic Blend · Fractal Brewing Guide</title>
+
+<link rel="stylesheet" href="https://ikalinowski.github.io/fractal-brewing-kit/css/fractal-brand.css">
+
+<style>
+  :root {
+    --cafe-acento-1:  #1c1400;
+    --cafe-acento-2:  #C9A84C;
+    --cafe-acento-bg: rgba(201,168,76,0.09);
+  }
+
+  /* ── Hero — Gold & Black ── */
+  .hero {
+    background: linear-gradient(160deg, #1c1400 0%, #261a00 60%, #2e2000 100%);
+    padding: 44px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(201,168,76,0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  /* Logo */
+  .hero-brand {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .hero-brand img {
+    height: 80px;
+    width: auto;
+    max-width: 260px;
+  }
+  .hero-brand-text {
+    font-size: 48px;
+    font-weight: 300;
+    color: #F0EEE9;
+    letter-spacing: 0.08em;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* Línea separadora */
+  .hero-separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(201,168,76,0.22);
+    margin: 0 0 22px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-origin {
+    position: relative;
+    z-index: 1;
+    color: #C9A84C;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.32);
+    opacity: 1;
+  }
+  .hero-name {
+    position: relative;
+    z-index: 1;
+    color: #F0EEE9;
+    font-size: 44px;
+    line-height: 1.05;
+  }
+  .hero-meta {
+    position: relative;
+    z-index: 1;
+    color: rgba(240,238,233,0.60);
+  }
+  .hero-divider {
+    position: relative;
+    z-index: 1;
+    background: #C9A84C;
+    opacity: 0.55;
+  }
+
+  /* Blend badge — proceso dual */
+  .hero-blend {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: 10px;
+    margin: 12px 0 4px;
+  }
+  .blend-pill {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .blend-lavado {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.45);
+    color: #E8CC7A;
+  }
+  .blend-natural {
+    background: rgba(180,120,30,0.18);
+    border: 1px solid rgba(180,120,30,0.45);
+    color: #D4A040;
+  }
+
+  /* Ocultar brand-band — logo en el hero */
+  .brand-band { display: none; }
+
+  .tab.active { background: #1c1400; border-color: #1c1400; }
+  .snum { background: #1c1400; color: #C9A84C; }
+  .tip::before { background: #C9A84C; }
+  .pill, .gbadge {
+    color: #1c1400;
+    background: rgba(201,168,76,0.12);
+    border-color: rgba(201,168,76,0.38);
+    opacity: 1;
+  }
+
+  /* Nota de proceso en el card */
+  .proceso-note {
+    font-size: 12px;
+    color: rgba(201,168,76,0.75);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<!-- brand-band oculto — logo en el hero -->
+<div class="brand-band"></div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+
+  <!-- Logo Fractal -->
+  <div class="hero-brand">
+    <img src="https://ikalinowski.github.io/fractal-brewing-kit/assets/logo/fractal-logo-blanco.svg"
+         alt="Fractal"
+         onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex'">
+    <span id="logo-fb" style="display:none;align-items:center;gap:10px">
+      <span class="hero-brand-text">fractal</span>
+    </span>
+  </div>
+
+  <div class="hero-separator"></div>
+
+  <p class="hero-origin">Amazonas · Cusco · 1700–1800 msnm</p>
+  <h1 class="hero-name">Exotic<br>Blend</h1>
+
+  <div class="hero-blend">
+    <span class="blend-pill blend-lavado">85% Lavado</span>
+    <span class="blend-pill blend-natural">15% Pool Natural</span>
+  </div>
+
+  <p class="hero-meta">Geisha · Juan Pablo Quispe / Hilda Córdova · Tueste Medio</p>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="wrap">
+  <div class="block">
+    <p class="lbl">Notas de cata</p>
+    <div class="pills" id="pills"></div>
+  </div>
+  <div class="block">
+    <p class="lbl">Método</p>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div class="card" id="card">
+    <div class="srow" id="t1"></div>
+    <div class="srow" id="t2"></div>
+    <div class="grow" id="gr"></div>
+    <p class="sh">Protocolo de extracción</p>
+    <div class="steps" id="st"></div>
+    <div class="tip" id="tp"></div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <img src="https://ikalinowski.github.io/fractal-brewing-kit/assets/logo/fractal-logo-blanco.svg"
+       alt="Fractal" onerror="this.style.display='none'">
+  <span class="footer-tagline">Siente lo auténtico · Celebra la variedad</span>
+  <span class="footer-sub">fractal · guía de brewing</span>
+</div>
+
+<script>
+var NOTAS = ['Chocolate Blanco', 'Durazno', 'Vainilla', 'Jazmín', 'Cáscara de Café'];
+
+var METODOS = {
+
+  /* ─────────────────────────────────────────────
+     B60  –  Flat bottom · Fondo plano
+     El fondo plano nivela la cama y extrae el
+     lavado (jazmín/durazno) con claridad, mientras
+     la base ancha da tiempo al natural para aportar
+     dulzura sin dominar.
+  ───────────────────────────────────────────── */
+  'B60': {
+    t1: [['1 : 15','Ratio'],['20 g','Café'],['300 ml','Agua']],
+    t2: [['91 °C','Temp.'],['3:30 min','Tiempo'],['~1.38%','TDS est.']],
+    g: 'Media', m: '~640–690 µm',
+    s: [
+      ['Bloom — 40 ml · 45 seg',
+       'Saturar en espiral desde el centro. La Geisha de este blend libera bastante CO₂ — esperar los 45 seg completos. El jazmín ya aparece en el vapor del bloom.'],
+      ['90 ml · 20 seg',
+       'Primer vertido circular lento del centro hacia afuera. La cama plana del B60 distribuye el agua de manera uniforme, potenciando la claridad del componente lavado. El durazno emerge limpio aquí.'],
+      ['90 ml · 20 seg',
+       'Mismo patrón. Mantener el nivel sin dejar bajar completamente. La vainilla y el chocolate blanco del 15% natural se integran en este pulso.'],
+      ['80 ml · 18 seg',
+       'Cierre suave en movimiento espiral inverso (de afuera hacia adentro). No tocar el borde del filtro. La cáscara de café aparece en la nariz como nota de cierre.'],
+      ['Drenaje · Esperado: 3:20–3:50 min',
+       'Dejar drenar sin tocar el lecho. Si cierra antes de 3:00 min, afinar molienda. Si supera 4:00 min, subir un step de molienda.']
+    ],
+    tip: 'Si el durazno se pierde detrás del chocolate, bajar a 89 °C. El B60 con este blend debe dar una taza floral y dulce, no cremosa ni pesada. El 15% natural es suficiente para aportar cuerpo sin opacar la claridad de la Geisha lavada.'
+  },
+
+  /* ─────────────────────────────────────────────
+     BIGAMI  –  Pour-over · Cono invertido
+     El ángulo y la forma del Bigami favorecen
+     velocidades de flujo medias. Ideal para
+     equilibrar los dos componentes del blend
+     sin que ninguno domine.
+  ───────────────────────────────────────────── */
+  'Bigami': {
+    t1: [['1 : 15','Ratio'],['18 g','Café'],['270 ml','Agua']],
+    t2: [['89 °C','Temp.'],['3:00 min','Tiempo'],['~1.36%','TDS est.']],
+    g: 'Media–Fina', m: '~590–640 µm',
+    s: [
+      ['Bloom — 36 ml · 35 seg',
+       'Verter los 36 ml en cruz sobre el lecho. Dar una suave agitación circular con cuchara y esperar. La temperatura de 89 °C es clave para preservar los florales del lavado sin sobreextaer el natural.'],
+      ['78 ml · 18 seg',
+       'Primer pulso circular desde el centro. La molienda más fina que en el B60 compensará el mayor caudal del cono. El jazmín y el durazno aparecen en balance en este primer pulso.'],
+      ['78 ml · 18 seg',
+       'Segundo pulso al mismo ritmo. No dejar caer el nivel por debajo del café. La vainilla gana presencia aquí — el blend empieza a mostrar su carácter completo.'],
+      ['78 ml · 16 seg',
+       'Cierre lento apuntando al centro del lecho. La forma del Bigami concentra la extracción final en el corazón de la cama, donde el 15% natural deposita la mayor dulzura.'],
+      ['Drenaje · Esperado: 2:50–3:20 min',
+       'Dejar drenar completamente. Si supera 3:30 min, subir la molienda. El Bigami con este blend debe dar una taza más redonda que el B60 pero igual de floral.']
+    ],
+    tip: 'La clave del Bigami con este blend es la molienda media-fina: si mueles igual que para el B60, el cono drena muy rápido y pierde la dulzura del natural. Busca un drenaje constante, ni demasiado rápido ni demasiado lento. El chocolate blanco y la vainilla son la señal de que estás en la zona correcta.'
+  },
+
+  /* ─────────────────────────────────────────────
+     AEROPRESS  –  Inmersión · Invertido + Bypass
+     El método invertido permite controlar el tiempo
+     de infusión con precisión. El bypass de agua
+     fría dilata el perfil y resalta el durazno
+     frío sin perder la estructura del jazmín.
+  ───────────────────────────────────────────── */
+  'Aeropress': {
+    t1: [['1 : 13 + bypass','Ratio'],['15 g','Café'],['195 ml + 30 ml fría']],
+    t2: [['86 °C','Temp.'],['2:10 min','Tiempo'],['~1.32%','TDS est.']],
+    g: 'Media–Fina', m: '~490–530 µm',
+    s: [
+      ['Posición invertida — Bloom 30 ml · 30 seg',
+       'Verter 30 ml a 86 °C sobre el café y revolver 3 veces con paleta plana. La temperatura baja es intencional: el Geisha lavado pierde sus florales por encima de 89 °C en inmersión. El jazmín debe sentirse desde el primer aroma.'],
+      ['165 ml · 20 seg',
+       'Completar los 195 ml en espiral lenta. Revolver suavemente 2 veces. Colocar el filtro húmedo y la tapa para sellar sin presionar.'],
+      ['Infusión en reposo — 60 seg',
+       'Reposar sin tocar. La inmersión uniforme extrae el chocolate blanco y la vainilla del 15% natural de forma suave. Este es el momento más importante: no agitar.'],
+      ['Inversión y prensado — 30 seg',
+       'Invertir sobre la taza con cuidado. Presionar muy lentamente durante 30 segundos. Parar al primer susurro de aire — no exprimir los últimos mililitros o aparecerá amargor. Total: ~2:00–2:20 min.'],
+      ['Bypass — 30 ml de agua fría',
+       'Agregar 30 ml de agua filtrada a temperatura ambiente o fría. El bypass diluye la concentración, baja la temperatura de servicio y resalta el durazno con mayor brillo. El perfil final es limpio, floral y refrescante.']
+    ],
+    tip: 'Este es el método más delicado para la Geisha de este blend. Si aparece amargor o astringencia, sube la molienda a 550 µm o baja la temperatura a 84 °C. Con 86 °C y bypass, el Aeropress debe dar la taza más floral y luminosa de los cinco métodos — durazno y jazmín dominantes, vainilla como fondo dulce.'
+  },
+
+  /* ─────────────────────────────────────────────
+     CHEMEX  –  Pour-over · Filtro cuádruple
+     El filtro grueso del Chemex clarifica
+     completamente el lavado y suaviza la aportación
+     del natural. Resulta en la taza más limpia
+     y elegante del blend — ideal para apreciar
+     el jazmín y el chocolate blanco en pureza.
+  ───────────────────────────────────────────── */
+  'Chemex': {
+    t1: [['1 : 16','Ratio'],['30 g','Café'],['480 ml','Agua']],
+    t2: [['92 °C','Temp.'],['4:40 min','Tiempo'],['~1.30%','TDS est.']],
+    g: 'Media–Gruesa', m: '~780–840 µm',
+    s: [
+      ['Bloom — 70 ml · 50 seg · Rao Spin',
+       'Verter 70 ml en espiral asegurando que todo el papel quede húmedo. Dar una sola rotación suave al Chemex (Rao Spin) para nivelar la cama. La temperatura de 92 °C activa la extracción del 15% natural desde el primer momento. Esperar hasta que el burbujeo cese.'],
+      ['120 ml · 25 seg',
+       'Primer pulso circular desde el centro hacia afuera sin tocar el borde. El filtro cuádruple ralentiza el flujo y clarifica la taza — el jazmín y el durazno aparecen con nitidez cristalina en esta fase.'],
+      ['120 ml · 25 seg',
+       'Segundo pulso al mismo ritmo. No dejar caer el nivel. El chocolate blanco y la vainilla del natural comienzan a integrarse con la acidez limpia del lavado.'],
+      ['100 ml · 22 seg',
+       'Tercer pulso desde mayor altura (20 cm) para oxigenar el café. La aireación en esta fase abre los florales y da complejidad al retrogusto.'],
+      ['70 ml · 18 seg — Wetting the walls',
+       'Cierre vertiendo en el borde del filtro (wetting the walls) para arrastrar los últimos sólidos y emparejar el drenaje final. Total: 4:20–4:50 min.']
+    ],
+    tip: 'El Chemex entrega la versión más pura del 85% lavado de este blend. Si el jazmín desaparece, bajar a 91 °C. Si el chocolate blanco se apaga, mantener 92 °C pero moler ligeramente más fino (760 µm). Servir inmediatamente — los florales de la Geisha son volátiles y se pierden si el café reposa más de 5 minutos en el servidor.'
+  },
+
+  /* ─────────────────────────────────────────────
+     DEEP 27  –  CAFEC · Flujo osmótico al centro
+     Método de precisión: 8 g en formato single
+     cup. El ángulo de 27° y el flujo osmótico
+     al centro crean una presión hidrostática
+     pareja que extrae las 5 notas en secuencia.
+     Ideal para degustar el blend en concentración.
+  ───────────────────────────────────────────── */
+  'Deep 27': {
+    t1: [['1 : 15','Ratio'],['8 g','Café'],['120 ml','Agua']],
+    t2: [['88 °C','Temp.'],['1:50 min','Tiempo'],['~1.40%','TDS est.']],
+    g: 'Media', m: '~640–670 µm',
+    s: [
+      ['Bloom — 16 ml · 30 seg · al centro',
+       'Verter los 16 ml apuntando siempre al centro del lecho. El ángulo de 27° forma una cama profunda incluso con 8 g — esta geometría concentra el flujo y extrae con precisión. El jazmín aparece en el primer vapor.'],
+      ['Flujo osmótico — 52 ml al centro · ritmo constante',
+       'Verter lento y continuo apuntando siempre al centro, nunca en espiral. Este es el principio osmótico del Deep 27: el agua entra y sale al mismo ritmo creando presión hidrostática pareja. El durazno y el chocolate blanco se extraen en este pulso.'],
+      ['52 ml finales · al centro',
+       'Mismo ritmo, mismo punto de vertido. Con 8 g la taza será pequeña e intensa — la vainilla y la cáscara de café aparecen en el último tercio de la extracción como firma del 15% natural.'],
+      ['Drenaje · Esperado: 1:40–2:05 min',
+       'Dejar drenar sin tocar. El Deep 27 concentra las 5 notas de cata en cada sorbo. Si supera 2:10 min, moler levemente más grueso. Si cierra antes de 1:30 min, afinar la molienda.']
+    ],
+    tip: 'Regla de oro del Deep 27: siempre al centro, nunca en espiral. La espiral rompe el flujo osmótico y desequilibra la extracción. Con este blend, la taza final debe revelar las notas en secuencia: jazmín → durazno → vainilla → chocolate blanco → cáscara. Si ese orden no aparece, la temperatura es demasiado baja — subir a 90 °C.'
+  }
+
+};
+
+var metodoKeys = Object.keys(METODOS);
+var cur = metodoKeys[0];
+
+document.getElementById('pills').innerHTML = NOTAS
+  .map(function(n){ return '<span class="pill">'+n+'</span>'; }).join('');
+
+document.getElementById('tabs').innerHTML = metodoKeys
+  .map(function(k,i){
+    return '<button class="tab'+(i===0?' active':'')+'" onclick="go(\''+k+'\',this)"><span class="tab-name">'+k+'</span></button>';
+  }).join('');
+
+function go(k,b){
+  if(k===cur) return;
+  cur=k;
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+  b.classList.add('active');
+  var c=document.getElementById('card');
+  c.classList.add('fade');
+  setTimeout(function(){draw(k);c.classList.remove('fade');},160);
+}
+function s(v,l){return '<div class="stat"><span class="sv">'+v+'</span><span class="sl">'+l+'</span></div>';}
+function draw(k){
+  var r=METODOS[k];
+  document.getElementById('t1').innerHTML=r.t1.map(function(x){return s(x[0],x[1]);}).join('');
+  document.getElementById('t2').innerHTML=r.t2.map(function(x){return s(x[0],x[1]);}).join('');
+  document.getElementById('gr').innerHTML='<div><div class="glbl">Molienda</div><div class="gval">'+r.g+'</div></div><span class="gbadge">'+r.m+'</span>';
+  document.getElementById('st').innerHTML=r.s.map(function(x,i){
+    return '<div class="step"><div class="snum">'+(i+1)+'</div><div><div class="stitle">'+x[0]+'</div><div class="sdesc">'+x[1]+'</div></div></div>';
+  }).join('');
+  document.getElementById('tp').innerHTML='<p>'+r.tip+'</p>';
+}
+draw(cur);
+</script>
+</body>
+</html>
